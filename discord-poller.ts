@@ -4,7 +4,7 @@
  * Run with: npx ts-node discord-poller.ts
  */
 
-import { handleMessage, healthCheck } from "./discord-bot.ts";
+import { handleMessage, healthCheck } from "./discord-bot";
 import * as fs from "fs";
 
 const GUILD_ID = "1475414275840278681";
