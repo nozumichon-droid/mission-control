@@ -1,0 +1,47 @@
+{
+  "botId": "1475400776485441567",
+  "botName": "Open Claw",
+  "serverId": "1475414275840278681",
+  "serverName": "OpenClaw",
+  "channels": {
+    "bruceac": {
+      "name": "bruceac-optimization",
+      "id": "1476075748958666873",
+      "topic": "Website optimization tracking for Bruce AC"
+    },
+    "meraki": {
+      "name": "meraki-optimization",
+      "id": "1476075750162567268",
+      "topic": "Website optimization tracking for Meraki Restoration"
+    },
+    "general": {
+      "name": "general",
+      "id": "1475414276478075035",
+      "topic": "General announcements and updates"
+    }
+  },
+  "relay": {
+    "enabled": true,
+    "biDirectional": true,
+    "webhookPath": "/discord/webhook",
+    "features": [
+      "Audit reports post to site-specific channels",
+      "Critical alerts broadcast to all channels",
+      "Discord messages relayed back to OpenClaw",
+      "Commands from Discord trigger agent actions"
+    ]
+  },
+  "botPermissionsNeeded": [
+    "VIEW_CHANNELS",
+    "SEND_MESSAGES",
+    "EMBED_LINKS",
+    "ATTACH_FILES",
+    "READ_MESSAGE_HISTORY",
+    "MENTION_EVERYONE",
+    "USE_EXTERNAL_EMOJIS",
+    "ADD_REACTIONS"
+  ],
+  "cronSchedule": "0 13 * * 1",
+  "cronTimezone": "America/Los_Angeles",
+  "cronTime": "6:00 AM PST (Monday)"
+}

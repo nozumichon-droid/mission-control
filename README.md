@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mission Control Dashboard
 
-## Getting Started
+Mission Control is a dark-mode command center for optimization telemetry across:
+- `bruceac.com`
+- `merakirestoration.com`
 
-First, run the development server:
+## Stack Decision
+
+**Confirmed stack is solid for MVP + scale:**
+- **Next.js (App Router) + TypeScript**: fast product iteration + typed API routes/components
+- **Supabase (Postgres + Row Level Security)**: reliable hosted DB + simple auth/policy model
+- **Recharts**: pragmatic charting for KPI trends and comparison visuals
+
+This stack is a strong fit for real-time-ish dashboarding, weekly automated audits, and Vercel deployment.
+
+## Implemented
+
+- Supabase schema with enums/tables/indexes/policies:
+  - `audits`
+  - `recommendations`
+  - `findings`
+- API endpoints:
+  - `GET /api/audits?site=bruceac`
+  - `GET /api/audits/history?site=bruceac&days=30`
+  - `GET /api/recommendations?site=bruceac`
+  - `POST /api/recommendations/:id`
+  - `GET /api/findings?site=bruceac&severity=critical`
+  - `GET /api/dashboard`
+  - `GET /api/cron/weekly-audit` (for Vercel Cron)
+- Dashboard UI components:
+  - `DashboardLayout`
+  - `MetricsCard`
+  - `HealthStatus`
+  - `RecommendationsTable`
+  - `TrendChart`
+  - `ComparisonMatrix`
+  - `AuditReport`
+  - `AlertBanner`
+- Weekly audit automation:
+  - Local/CI script: `cron/audit.ts`
+  - Shared runner: `src/lib/auditRunner.ts`
+  - Vercel cron schedule in `vercel.json` (Mondays @ 6AM PST)
+
+## Environment Variables
+
+Create `.env.local`:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+CRON_SECRET=
+PAGESPEED_API_KEY=
+ANTHROPIC_API_KEY=
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Supabase Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Open Supabase SQL Editor.
+2. Run `supabase/schema.sql`.
+3. Verify tables exist and insert seed rows (optional).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Run
 
-## Learn More
+```bash
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Run Weekly Audit Manually
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run audit:weekly
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy to Vercel
 
-## Deploy on Vercel
+1. Import repo in Vercel.
+2. Set env vars from above.
+3. Confirm cron route auth secret (`CRON_SECRET`) matches your header strategy.
+4. Deploy.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Notes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- App uses mock fallback data when Supabase env vars are missing.
+- Recommendation status changes work in mock mode (in-memory) and persisted mode (Supabase).

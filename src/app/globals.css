@@ -1,42 +1,193 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --bg: #070b14;
+  --bg-elev: #0f172a;
+  --card: #111c33;
+  --line: #1f2a44;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --good: #22c55e;
+  --warn: #f59e0b;
+  --bad: #ef4444;
+  --accent: #60a5fa;
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
+}
+
+html,
+body {
   margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at top right, #101e3b 0%, var(--bg) 55%);
+  color: var(--text);
+  font-family: var(--font-geist-sans), Inter, system-ui, sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.dashboard-shell {
+  min-height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.eyebrow {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+}
+
+.dashboard-main {
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  background: linear-gradient(180deg, #101a30 0%, var(--card) 100%);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.site-grid,
+.two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.site-column h2 {
+  margin-bottom: 10px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.metric header,
+.metric footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.metric-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.metric-value {
+  font-size: 1.8rem;
+  margin: 8px 0;
+}
+
+.metric-good { border-left: 3px solid var(--good); }
+.metric-warning { border-left: 3px solid var(--warn); }
+.metric-critical { border-left: 3px solid var(--bad); }
+
+.hint {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.trend { font-weight: 600; color: var(--accent); }
+
+.health-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.health-meta {
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+.alerts {
+  margin-top: 10px;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.table-wrap { overflow-x: auto; margin-top: 10px; }
+
+.reco-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reco-table th,
+.reco-table td {
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  padding: 10px 8px;
+  font-size: 0.92rem;
+}
+
+.reco-table th { color: var(--muted); font-weight: 600; }
+
+select {
+  background: var(--bg-elev);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+
+.pill {
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 8px;
+  border: 1px solid transparent;
+}
+.pill.good { background: rgba(34, 197, 94, 0.12); border-color: rgba(34, 197, 94, 0.4); color: #86efac; }
+.pill.critical { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.4); color: #fca5a5; }
+.pill.high { background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.4); color: #fcd34d; }
+.pill.medium { background: rgba(96, 165, 250, 0.12); border-color: rgba(96, 165, 250, 0.4); color: #93c5fd; }
+.pill.low { background: rgba(156, 163, 175, 0.12); border-color: rgba(156, 163, 175, 0.4); color: #d1d5db; }
+
+.alert-banner {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  padding: 10px 12px;
+  border-radius: 10px;
+  backdrop-filter: blur(8px);
+}
+
+.audit-grid {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+summary { cursor: pointer; }
+
+@media (max-width: 980px) {
+  .site-grid,
+  .two-col,
+  .metrics-grid,
+  .audit-grid,
+  .dashboard-header {
+    grid-template-columns: 1fr;
+    display: grid;
   }
 }
