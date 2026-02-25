@@ -33,8 +33,24 @@ export function TrendChart({ title, data, unit = "" }: Props) {
             <XAxis dataKey="date" stroke="#9CA3AF" />
             <YAxis stroke="#9CA3AF" />
             <Tooltip />
-            <Line type="monotone" dataKey="bruceac" stroke="#60A5FA" strokeWidth={2} dot={false} />
-            <Line type="monotone" dataKey="meraki" stroke="#A78BFA" strokeWidth={2} dot={false} />
+            <Line
+              type="monotone"
+              dataKey="bruceac"
+              stroke="#60A5FA"
+              strokeWidth={2}
+              dot={false}
+              isAnimationActive
+              animationDuration={700}
+            />
+            <Line
+              type="monotone"
+              dataKey="meraki"
+              stroke="#A78BFA"
+              strokeWidth={2}
+              dot={false}
+              isAnimationActive
+              animationDuration={700}
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>
